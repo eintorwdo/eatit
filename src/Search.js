@@ -1,15 +1,18 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import ResultList from './ResultList';
 
 class Search extends React.Component{
 
     constructor(){
         super();
-        this.state = {apiRes: ''};
+        this.state = {apiRes: '', query: ''};
     }
 
     click = (e) => {
-        e.preventDefault();
+        // e.preventDefault();
         var q = document.getElementById('query').value;
+        this.setState({query: q});
         fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q}&number=3`, {
             mode: 'cors'
         }).then(res => {
@@ -42,7 +45,9 @@ class Search extends React.Component{
             <div className="container-fluid mt-2">
                 <form className="form-inline justify-content-center">
                     <input id="query" className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button onClick={this.click} className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <Link to={`/search/${this.state.query}`}>
+                        <button onClick={this.click} className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </Link>
                 </form>
                 {resultList}
             </div>
