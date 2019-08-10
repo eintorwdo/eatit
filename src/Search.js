@@ -1,25 +1,43 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import ResultList from './ResultList';
+import queryString from 'query-string'
 
 class Search extends React.Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {apiRes: '', query: ''};
-    }
 
-    click = (e) => {
-        // e.preventDefault();
-        var q = document.getElementById('query').value;
-        this.setState({query: q});
-        fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q}&number=3`, {
+        var q = queryString.parse(this.props.location.search);
+        // this.setState({query: this.props.location.search});
+        this.state.query = this.props.location.search;
+        fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=3`, {
             mode: 'cors'
         }).then(res => {
             return res.json();
         }).then(res => {
-            this.setState({apiRes: res});
+            // this.setState({apiRes: res});
+            this.state.apiRes = res;
         });
+    }
+
+    static getDerivedStateFromProps(props, state){
+        var cur = props.location.search;
+        console.log(props.location.search);
+        var prev = '';
+        if(state.query){
+            prev = state.query;
+        }
+        if(cur !== prev){
+            // var q = queryString.parse(cur);
+            // fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=3`, {
+            // mode: 'cors'
+            // }).then(res => {
+            //     return res.json();
+            // }).then(res => {
+            //     return {apiRes: res};
+            // });
+            return {apiRes: '', query: cur};
+        }
     }
     
     render(){
@@ -40,18 +58,7 @@ class Search extends React.Component{
                 </div>
             );
         }
-
-        return(
-            <div className="container-fluid mt-2">
-                <form className="form-inline justify-content-center">
-                    <input id="query" className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <Link to={`/search/${this.state.query}`}>
-                        <button onClick={this.click} className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                    </Link>
-                </form>
-                {resultList}
-            </div>
-        );
+        return resultList;
     }
 }
 
