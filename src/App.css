@@ -40,6 +40,35 @@
   /* display: none; */
 }
 
+#title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#thumbnail{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#searchResult{
+  justify-content: center;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  border-bottom: solid;
+  border-bottom-width: 1px;
+  transition: background-color 0.5s;
+}
+
+#searchResult:hover{
+  background-color: rgb(219, 219, 219);
+}
+
+#listCol{
+  margin: 0 auto;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

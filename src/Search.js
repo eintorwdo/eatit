@@ -1,6 +1,7 @@
 import React from 'react';
 import queryString from 'query-string'
 
+
 class Search extends React.Component{
 
     constructor(props){
@@ -49,21 +50,41 @@ class Search extends React.Component{
             var results = this.state.apiRes.results;
             // console.log(results);
             resultList = (
-                <div className="container mt-2">
+                <div className="col-md-4 mt-2" id='listCol'>
                     <ul className="resultsList">
                         {results.map((val) => {
                             return (
-                                <a href="#" key={val.id}>
-                                    <li key={val.id}>{val.title}</li>
-                                </a>
+                                // <a href="#" key={val.id}>
+                                    <li key={val.id}>
+                                        <div className='row' id='searchResult'>
+                                            <div className='col-md' id='thumbnail'>
+                                                <img src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
+                                            </div>
+
+                                            <div className='col-md' id='title'>
+                                                <a href="#" key={val.id}>{val.title}</a>
+                                            </div>
+                                        </div>
+                                    </li>
+                                // </a>
                             );
                         })}
                     </ul>
+
+                    {/* <nav aria-label="Page navigation example">
+                        <ul className="pagination">
+                            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
+                            <li className="page-item"><a className="page-link" href="#">1</a></li>
+                            <li className="page-item"><a className="page-link" href="#">2</a></li>
+                            <li className="page-item"><a className="page-link" href="#">3</a></li>
+                            <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                        </ul>
+                    </nav> */}
+
                 </div>
             );
         }
         return resultList;
     }
 }
-
 export default Search;

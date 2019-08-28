@@ -3,6 +3,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Search from './Search.js';
+require('dotenv').config()
 
 class App extends React.Component {
 
