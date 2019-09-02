@@ -36,8 +36,12 @@
   text-align: center;
 }
 
-#invisibleLink{
+.invisibleLink{
   /* display: none; */
+}
+
+.thumbnailImg{
+  width: 90px;
 }
 
 #title{
@@ -72,6 +76,14 @@
 #paginationNav{
   display: flex;
   justify-content: center;
+}
+
+#homeBody{
+  margin: 0 auto;
+}
+
+#homeText{
+  text-align: center;
 }
 
 @keyframes App-logo-spin {

@@ -1,6 +1,6 @@
 import React from 'react';
 import queryString from 'query-string'
-
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Search extends React.Component{
 
@@ -9,7 +9,6 @@ class Search extends React.Component{
         super(props);
         this.state = {apiRes: '', query: '', page: 1};
         var q = queryString.parse(this.props.location.search);
-        // this.setState({query: this.props.location.search});
         this.state.query = this.props.location.search;
         var number = 5;
         var page = 1;
@@ -29,9 +28,57 @@ class Search extends React.Component{
         });
     }
 
+    pageUpdate = (next) => {
+        var nxtPg;
+        if(next){
+            nxtPg = this.state.page + 1;
+        }
+        else{
+            nxtPg = this.state.page - 1;
+            if(nxtPg < 1){
+                nxtPg = 1;
+            }
+        }
+        var number = 5;
+        var offset = (nxtPg - 1) * number;
+        return [number, offset, nxtPg];
+    }
+
+    nextPage = (e) => {
+        e.preventDefault();
+        var cur = this.props.location.search;
+        var q = queryString.parse(cur).query;
+        var numOff = this.pageUpdate(true);
+        this.setState({page: numOff[2], query: `?query=${q}&number=${numOff[0]}&offset=${numOff[1]}`}, ()=>{
+            document.getElementById('pagLink').click();
+        });
+    }
+
+    prevPage = (e) => {
+        e.preventDefault();
+        var cur = this.props.location.search;
+        var q = queryString.parse(cur).query;
+        var numOff = this.pageUpdate(false);
+        this.setState({page: numOff[2], query: `?query=${q}&number=${numOff[0]}&offset=${numOff[1]}`}, ()=>{
+            document.getElementById('pagLink').click();
+        });
+    }
+
+    changePage = (e) => {
+        e.preventDefault();
+        var page = parseInt(e.target.innerHTML);
+        var number = 5;
+        var offset = (page - 1) * number;
+        var cur = this.props.location.search;
+        var q = queryString.parse(cur).query;
+        this.setState({page: page, query: `?query=${q}&number=${number}&offset=${offset}`}, ()=>{
+            document.getElementById('pagLink').click();
+        });
+    }
+
     componentDidUpdate(prevProps, prevState){
         var cur = this.props.location.search;
-        console.log(this.props.location.search, this.state.query);
+        // console.log(this.props.location.search, this.state.query);
         var prev = '';
         if(this.state.query){
             prev = this.state.query;
@@ -41,11 +88,12 @@ class Search extends React.Component{
             var number = 5;
             var page = this.state.page;
             var offset = 0;
-            if(q.page){
-                if(page != parseInt(q.page)){
-                    page = parseInt(q.page);
-                    this.setState({page: page});
-                }
+            console.log(cur, prev);
+            if(q.offset){
+                // if(page != parseInt(q.page)){
+                //     page = parseInt(q.page);
+                //     this.setState({page: page});
+                // }
                 offset = (page - 1) * number;
             }
             fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}`, {
@@ -68,8 +116,6 @@ class Search extends React.Component{
         if(this.state.apiRes.results){
             var results = this.state.apiRes.results;
             var lastPage = Math.ceil(this.state.apiRes.totalResults/5);
-            console.log(this.state.apiRes.totalResults);
-            console.log(lastPage);
             var curPage = this.state.page;
             var paginationArr = [];
             if(curPage == 1){
@@ -100,7 +146,7 @@ class Search extends React.Component{
                         cls = `${cls} active`;
                     }
                     return(
-                        <li className={cls}><a className="page-link" href="#">{val}</a></li>
+                        <li className={cls}><button className="page-link" onClick={this.changePage}>{val}</button></li>
                     );
                 })
 
@@ -112,7 +158,7 @@ class Search extends React.Component{
                                 <li key={val.id}>
                                     <div className='row' id='searchResult'>
                                         <div className='col-md' id='thumbnail'>
-                                            <img src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
+                                            <img class='thumbnailImg' src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
                                         </div>
 
                                         <div className='col-md' id='title'>
@@ -126,12 +172,10 @@ class Search extends React.Component{
 
                     <nav aria-label="Page navigation example" id='paginationNav'>
                         <ul className="pagination">
-                            <li className="page-item"><a className="page-link" href="#">Previous</a></li>
-                            {/* <li className="page-item"><a className="page-link" href="#">{paginationArr[0]}</a></li> */}
-                            {/* <li className="page-item"><a className="page-link" href="#">{paginationArr[1]}</a></li> */}
-                            {/* <li className="page-item"><a className="page-link" href="#">{paginationArr[2]}</a></li> */}
+                            <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
                             {pagination}
-                            <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                            <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
+                            <Link to={this.state.query} class='invisibleLink' id='pagLink'></Link>
                         </ul>
                     </nav>
 

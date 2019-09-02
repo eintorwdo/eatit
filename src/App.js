@@ -3,12 +3,13 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Search from './Search.js';
+import Home from './Home.js';
 require('dotenv').config()
 
 class App extends React.Component {
 
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {query: '#'};
   }
 
@@ -17,12 +18,12 @@ class App extends React.Component {
     var q = document.getElementById("query").value;
     if(q.length > 0){
         this.setState({query: `/search?query=${q}`}, ()=>{
-          document.getElementById("invisibleLink").click();
+          document.getElementById("srcLink").click();
         });
     }
     else{
       this.setState({query: '#'}, ()=>{
-        document.getElementById("invisibleLink").click();
+        document.getElementById("srcLink").click();
       });
     }
   }
@@ -48,7 +49,7 @@ class App extends React.Component {
                     {/* <Link to={this.state.query}> */}
                         <button onClick={this.onChange} className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                     {/* </Link> */}
-                    <Link to={this.state.query} id="invisibleLink"></Link>
+                    <Link to={this.state.query} className="invisibleLink" id='srcLink'></Link>
                   </form>
                 </li>
               </ul>
@@ -56,6 +57,23 @@ class App extends React.Component {
           </nav>
         </div>
 
+        <div className='row'>
+          <div className="col-md mt-2">
+            
+          </div>
+
+          <div className="col-md-4 mt-2">
+            {this.props.main}
+          </div>
+
+          <div className="col-md mt-2">
+            
+          </div>
+        </div>
+
+        <Route exact path="/" render={props =>
+          <Home />
+        } />
         <Route path="/search" component={Search} />
       </Router>
     );
