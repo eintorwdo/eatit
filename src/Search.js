@@ -78,22 +78,17 @@ class Search extends React.Component{
 
     componentDidUpdate(prevProps, prevState){
         var cur = this.props.location.search;
-        // console.log(this.props.location.search, this.state.query);
         var prev = '';
         if(this.state.query){
-            prev = this.state.query;
+            // prev = this.state.query;
+            prev = prevProps.location.search;
         }
         if(cur !== prev){
             var q = queryString.parse(cur);
             var number = 5;
-            var page = this.state.page;
+            var page = parseInt(q.offset) ? parseInt(q.offset)/number + 1 : 1;
             var offset = 0;
-            console.log(cur, prev);
             if(q.offset){
-                // if(page != parseInt(q.page)){
-                //     page = parseInt(q.page);
-                //     this.setState({page: page});
-                // }
                 offset = (page - 1) * number;
             }
             fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}`, {
@@ -102,7 +97,7 @@ class Search extends React.Component{
                 return res.json();
             }).then(res => {
                 console.log("z fetchem", res);
-                this.setState({apiRes: res, query: cur});
+                this.setState({apiRes: res, query: cur, page: page});
             });       
         }
         else{
@@ -158,7 +153,7 @@ class Search extends React.Component{
                                 <li key={val.id}>
                                     <div className='row' id='searchResult'>
                                         <div className='col-md' id='thumbnail'>
-                                            <img class='thumbnailImg' src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
+                                            <img className='thumbnailImg' src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
                                         </div>
 
                                         <div className='col-md' id='title'>
@@ -175,7 +170,7 @@ class Search extends React.Component{
                             <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
                             {pagination}
                             <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
-                            <Link to={this.state.query} class='invisibleLink' id='pagLink'></Link>
+                            <Link to={this.state.query} className='invisibleLink' id='pagLink'></Link>
                         </ul>
                     </nav>
 

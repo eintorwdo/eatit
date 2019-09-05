@@ -57,7 +57,7 @@ class App extends React.Component {
           </nav>
         </div>
 
-        <div className='row'>
+        {/* <div className='row'>
           <div className="col-md mt-2">
             
           </div>
@@ -69,11 +69,9 @@ class App extends React.Component {
           <div className="col-md mt-2">
             
           </div>
-        </div>
+        </div> */}
 
-        <Route exact path="/" render={props =>
-          <Home />
-        } />
+        <Route exact path="/" component={Home} />
         <Route path="/search" component={Search} />
       </Router>
     );
