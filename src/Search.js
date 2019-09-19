@@ -1,11 +1,12 @@
 import React from 'react';
+import Thumbnail from './Thumbnail.js';
 import queryString from 'query-string'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 class Search extends React.Component{
 
     constructor(props){
-        console.log("CONSTR");
+        // console.log("CONSTR");
         super(props);
         this.state = {apiRes: '', query: '', page: 1};
         var q = queryString.parse(this.props.location.search);
@@ -96,12 +97,12 @@ class Search extends React.Component{
             }).then(res => {
                 return res.json();
             }).then(res => {
-                console.log("z fetchem", res);
+                // console.log("z fetchem", res);
                 this.setState({apiRes: res, query: cur, page: page});
             });       
         }
         else{
-            console.log("bez fetcha");
+            // console.log("bez fetcha");
         }
     }
 
@@ -153,7 +154,8 @@ class Search extends React.Component{
                                 <li key={val.id}>
                                     <div className='row' id='searchResult'>
                                         <div className='col-md' id='thumbnail'>
-                                            <img className='thumbnailImg' src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
+                                            {/* <img className='thumbnailImg' src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/> */}
+                                            <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
                                         </div>
 
                                         <div className='col-md' id='title'>
