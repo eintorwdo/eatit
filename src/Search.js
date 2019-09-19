@@ -20,12 +20,11 @@ class Search extends React.Component{
             this.state.page = page;
         }
         fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}`, {
-            mode: 'cors'
+            // mode: 'cors'
         }).then(res => {
             return res.json();
         }).then(res => {
             this.setState({apiRes: res});
-            // this.state.apiRes = res;
         });
     }
 
@@ -154,12 +153,11 @@ class Search extends React.Component{
                                 <li key={val.id}>
                                     <div className='row' id='searchResult'>
                                         <div className='col-md' id='thumbnail'>
-                                            {/* <img className='thumbnailImg' src={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/> */}
                                             <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
                                         </div>
 
                                         <div className='col-md' id='title'>
-                                            <a href="#" key={val.id}>{val.title}</a>
+                                            <Link to={`/recipe/${val.id}`} key={val.id}>{val.title}</Link>
                                         </div>
                                     </div>
                                 </li>

@@ -4,6 +4,7 @@ import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Search from './Search.js';
 import Home from './Home.js';
+import Recipe from './Recipe.js'
 require('dotenv').config()
 
 class App extends React.Component {
@@ -57,22 +58,9 @@ class App extends React.Component {
           </nav>
         </div>
 
-        {/* <div className='row'>
-          <div className="col-md mt-2">
-            
-          </div>
-
-          <div className="col-md-4 mt-2">
-            {this.props.main}
-          </div>
-
-          <div className="col-md mt-2">
-            
-          </div>
-        </div> */}
-
         <Route exact path="/" component={Home} />
         <Route path="/search" component={Search} />
+        <Route path="/recipe/:id" component={Recipe} />
       </Router>
     );
   }
