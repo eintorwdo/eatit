@@ -153,7 +153,7 @@ class Search extends React.Component{
                                 <li key={val.id}>
                                     <div className='row' id='searchResult'>
                                         <div className='col-md' id='thumbnail'>
-                                            <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`}/>
+                                            <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`} height='90px' />
                                         </div>
 
                                         <div className='col-md' id='title'>

@@ -45,6 +45,11 @@
   height: 90px;
 }
 
+.bigImg{
+  width: 80%;
+  height: auto;
+}
+
 #title{
   display: flex;
   align-items: center;
@@ -93,12 +98,27 @@
   text-align: center;
 }
 
+.instructionsList{
+  list-style: none;
+  padding: initial;
+  text-align: center;
+}
+
 .loader {
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
   width: 90px;
   height: 90px;
+  animation: spin 2s linear infinite;
+}
+
+.loaderBig {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 393px;
+  height: 393px;
   animation: spin 2s linear infinite;
 }
 
@@ -113,5 +133,12 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media screen and (min-width: 768px){
+  .ingredientsList{
+    border-right-style: solid;
+    border-right-width: 1px;
   }
 }
