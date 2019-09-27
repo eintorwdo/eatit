@@ -47,7 +47,7 @@ class Recipe extends React.Component{
         if(instructions){
             instructionsList = (
                     <div className='row'>
-                        <div className='col-md' style={{padding: '20px', borderTopStyle: 'solid', borderWidth: '1px'}}>
+                        <div className='col-md' style={{padding: '20px'}}>
                             <p style={{textAlign: "center"}}><strong>Instructions:</strong></p>
                             <ul className='instructionsList'>
                                 

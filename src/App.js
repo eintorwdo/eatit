@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import Search from './Search.js';
 import Home from './Home.js';
 import Recipe from './Recipe.js'
+import Footer from './Footer.js'
+
 require('dotenv').config()
 
 class App extends React.Component {
@@ -61,7 +63,7 @@ class App extends React.Component {
         <Route exact path="/" component={Home} />
         <Route path="/search" component={Search} />
         <Route path="/recipe/:id" component={Recipe} />
-        {/* <p>TEST</p> footer*/}
+        <Footer />
       </Router>
     );
   }
