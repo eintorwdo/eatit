@@ -7,9 +7,9 @@ class Home extends React.Component{
 
     render(){
         return(
-            // <div className="col-md-4 mt-2" id='homeBody'>
+            <div className="col-md-4 mt-2" id='homeBody'>
                 <p id='homeText'>The best recipes you'll ever find! (on this page)</p>
-            // </div>
+            </div>
         );
     }
 }

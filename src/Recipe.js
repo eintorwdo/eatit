@@ -84,7 +84,7 @@ class Recipe extends React.Component{
         );
 
         return(
-            <div className='row' style={{marginTop: '20px'}}>
+            <div className='row recipeContent' style={{marginTop: '20px'}}>
                 {ingredientList}
                 {photoInstructions}
             </div>
