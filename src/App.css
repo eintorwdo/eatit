@@ -128,8 +128,12 @@
   background-color: #f8f9fa;
   /* position: absolute; */
   bottom: 0;
-  padding: 50px;
+  /* padding: 50px; */
   width: 100%;
+}
+
+.upperFooter{
+  padding: 35px;
 }
 
 #root {
@@ -154,6 +158,10 @@ html, body{
 
 .recipeContent {
   flex: 1 0 auto;
+}
+
+#map{
+  height: 280px;
 }
 
 @keyframes spin {

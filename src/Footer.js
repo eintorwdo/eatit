@@ -1,5 +1,6 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
+import Map from './Map.js';
 class Footer extends React.Component{
     constructor(props){
         super(props);
@@ -7,7 +8,7 @@ class Footer extends React.Component{
     render(){
         return(
             <footer className='footer'>
-                <div className='row'>
+                <div className='row upperFooter'>
                     <div className='col-md-6 logoWrapper' style={{display: 'flex', justifyContent: 'center'}}>
                         <img src='./logo.png' style={{height: '90px', width: 'auto'}}></img>
                     </div>
@@ -15,9 +16,9 @@ class Footer extends React.Component{
                         <div className='row'>
                         <div className='col-sm-6'>
                             <ul className='footer-list'>
-                                <li><Link to='#'>Support</Link></li>
-                                <li><Link to='#'>Terms and Conditions</Link></li>
-                                <li><Link to='#'></Link></li>
+                                <li><Link to='#'>Link1</Link></li>
+                                <li><Link to='#'>Link2</Link></li>
+                                <li><Link to='#'>Link3</Link></li>
                             </ul>
                         </div>
                         <div className='col-sm-6'>
@@ -28,6 +29,11 @@ class Footer extends React.Component{
                             </ul>
                         </div>
                         </div>
+                    </div>
+                </div>
+                <div className='row'>
+                    <div className='col-md'>
+                        <Map coords='50.02948,19.90618'/>
                     </div>
                 </div>
             </footer>
