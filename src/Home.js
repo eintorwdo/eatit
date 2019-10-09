@@ -11,24 +11,8 @@ class Home extends React.Component{
             const items = [];
             for(const[index, value] of res.recipes.entries()){
                 var clsName = '';
-                var left;
-                var right;
-                //below code mostly useless, but will be used later
-                if(this.state.counter == 0){
-                    left = res.recipes.length - 1;
-                    right = this.state.counter + 1;
-                    console.log(left, right);
-                }
-                else if(this.state.counter == res.recipes.length - 1){
-                    left = this.state.counter - 1;
-                    right = 0;
-                }
-                else{
-                    left = this.state.counter - 1;
-                    right = this.state.counter + 1;
-                }
-
-
+                var left = res.recipes.length - 1;
+                var right = this.state.counter + 1;
                 if(index == left){
                     clsName = 'left';
                 }
@@ -47,14 +31,66 @@ class Home extends React.Component{
         })
     }
 
+    moveRight = () => {
+        var left;
+        var right;
+        var ctr = this.state.counter;
+        ctr = (ctr+1)%this.state.recipes.length;
+
+        if(ctr == 0){
+            left = this.state.recipes.length - 1;
+            right = ctr + 1;
+        }
+        else if(ctr == this.state.recipes.length - 1){
+            left = ctr - 1;
+            right = 0;
+        }
+        else{
+            left = ctr - 1;
+            right = ctr + 1;
+        }
+
+        var clsName;
+        var rcps = Array.from(this.state.recipes);
+        var rcp;
+        var newRcps = [];
+        rcps.forEach((value, index) => {
+            if(index == left){
+                clsName = 'left';
+                rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
+                newRcps.push(rcp);
+            }
+            else if(index == right){
+                clsName = 'right';
+                rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
+                newRcps.push(rcp);
+            }
+            else if (index == ctr){
+                clsName = 'ctr';
+                rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
+                newRcps.push(rcp);
+            }
+            else{
+                clsName = 'inv';
+                rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
+                newRcps.push(rcp);
+            }
+        })
+            
+        this.setState((state) => {
+            return {counter: (state.counter+1)%state.recipes.length, recipes: newRcps};       //use this when neww val is computed based on prev state
+        });
+    }
+
     render(){
+        var recipes = this.state.recipes;
         return(
             <div className="col-md mt-2" id='homeBody'>
                 <i className="fas fa-arrow-circle-left"></i>
                 <div className='MainPageCardsWrapper'>
-                    {this.state.recipes}
+                    {recipes}
                 </div>
-                <i className="fas fa-arrow-circle-right"></i>
+                <i className="fas fa-arrow-circle-right" onClick={this.moveRight}></i>
             </div>
         );
     }
