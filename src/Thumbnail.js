@@ -14,6 +14,9 @@ class Thumbnail extends React.Component{
             else if(this.props.height == '393px'){
                 return <div className='loaderBig'></div>;
             }
+            else if(this.props.height == '150px'){
+                return <div className='loaderMedium'></div>;
+            }
         }
         else{
             return null;
@@ -32,6 +35,9 @@ class Thumbnail extends React.Component{
         }
         else if(this.props.height == '393px'){
             cls = 'bigImg';
+        }
+        else if(this.props.height == '150px'){
+            cls = 'medImg';
         }
         return(
             <div style={{display: 'flex', justifyContent: 'center'}}>
