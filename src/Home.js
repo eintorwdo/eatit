@@ -26,7 +26,7 @@ class Home extends React.Component{
                 else{
                     clsName = 'inv';
                 }
-                items.push(<MainPageCard key={index} id={index} data={value} cls={clsName}/>);
+                items.push(<MainPageCard key={index} id={index} data={value} cls={clsName} height='150'/>);
             }
             this.setState({recipes: items});
         })
@@ -57,43 +57,8 @@ class Home extends React.Component{
             leftInv = (left == 0) ? this.state.recipes.length - 1 : left - 1;
             rightInv = (right == this.state.recipes.length - 1) ? 0 : right + 1;
 
-            var clsName;
             var rcps = Array.from(this.state.recipes);
-            var rcp;
-            var newRcps = [];
-            rcps.forEach((value, index) => {
-                if(index == left){
-                    clsName = 'left';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if(index == right){
-                    clsName = 'right';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if (index == ctr){
-                    clsName = 'ctr';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if (index == leftInv){
-                    clsName = 'invLeft';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if (index == rightInv){
-                    clsName = 'invRight';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else{
-                    clsName = 'inv';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-            })
-                
+            var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);;
             this.setState((state) => {
                 return {counter: (state.counter+1)%state.recipes.length, recipes: newRcps};       //use this when neww val is computed based on prev state
             });
@@ -125,47 +90,49 @@ class Home extends React.Component{
             leftInv = (left == 0) ? this.state.recipes.length - 1 : left - 1;
             rightInv = (right == this.state.recipes.length - 1) ? 0 : right + 1;
 
-            var clsName;
+            // var clsName;
             var rcps = Array.from(this.state.recipes);
-            var rcp;
-            var newRcps = [];
-            rcps.forEach((value, index) => {
-                if(index == left){
-                    clsName = 'left';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if(index == right){
-                    clsName = 'right';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if (index == ctr){
-                    clsName = 'ctr';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if (index == leftInv){
-                    clsName = 'invLeft';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else if (index == rightInv){
-                    clsName = 'invRight';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-                else{
-                    clsName = 'inv';
-                    rcp = React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-                    newRcps.push(rcp);
-                }
-            })
-                
+            var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);
             this.setState((state) => {
                 return {counter: (state.counter == 0) ? state.recipes.length - 1 : state.counter - 1, recipes: newRcps};       //use this when neww val is computed based on prev state
             });
         }
+    }
+
+    cloneMainPageCard = (value, clsName) => {
+        return React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
+    }
+
+    moveElements = (rcps, left, right, leftInv, rightInv, ctr) => {
+        var rcp;
+        var newRcps = [];
+        rcps.forEach((value, index) => {
+            if(index == left){
+                rcp = this.cloneMainPageCard(value, 'left');
+                newRcps.push(rcp);
+            }
+            else if(index == right){
+                rcp = this.cloneMainPageCard(value, 'right');
+                newRcps.push(rcp);
+            }
+            else if (index == ctr){
+                rcp = this.cloneMainPageCard(value, 'ctr');
+                newRcps.push(rcp);
+            }
+            else if (index == leftInv){
+                rcp = this.cloneMainPageCard(value, 'invLeft');
+                newRcps.push(rcp);
+            }
+            else if (index == rightInv){
+                rcp = this.cloneMainPageCard(value, 'invRight');
+                newRcps.push(rcp);
+            }
+            else{
+                rcp = this.cloneMainPageCard(value, 'inv');
+                newRcps.push(rcp);
+            }
+        })
+        return newRcps;
     }
 
     render(){

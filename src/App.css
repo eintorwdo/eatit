@@ -40,20 +40,14 @@
   display: none;
 }
 
-.thumbnailImg{
-  width: 90px;
-  height: 90px;
-  object-fit: cover;
-}
-
 .bigImg{
   width: 80%;
   height: auto;
 }
 
-.medImg{
-  width: 150px;
-  height: 150px;
+.thumbnailImg{
+  width: var(--height);
+  height: var(--height);
   object-fit: cover;
 }
 
@@ -108,8 +102,7 @@
 
 .MainPageCard{
   position: absolute;
-  /* height: 100px; */
-  top: -75px;
+  top: var(--top);
   transform: translate(-50%);
 }
 
@@ -180,26 +173,8 @@
   border: 16px solid #f3f3f3; /* Light grey */
   border-top: 16px solid #3498db; /* Blue */
   border-radius: 50%;
-  width: 90px;
-  height: 90px;
-  animation: spin 2s linear infinite;
-}
-
-.loaderBig {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 393px;
-  height: 393px;
-  animation: spin 2s linear infinite;
-}
-
-.loaderMedium {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: var(--height);
+  height: var(--height);
   animation: spin 2s linear infinite;
 }
 

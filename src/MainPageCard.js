@@ -9,9 +9,10 @@ class MainPageCard extends React.Component{
 
     render(){
         var className=`MainPageCard ${this.props.cls}`;
+        var hgt = parseInt(this.props.height);
         return (
-            <div className={className}>
-                <Thumbnail url={this.props.data.image} height='150px' />
+            <div className={className} style={{'--top': `${-hgt/2}px`}}>
+                <Thumbnail url={this.props.data.image} height={`${hgt}px`} />
                 <p className='MainPageCardTitle'>{this.props.data.title}</p>
             </div>
         );

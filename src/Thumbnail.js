@@ -8,15 +8,7 @@ class Thumbnail extends React.Component{
 
     renderSpinner = () => {
         if(this.state.loading == true){
-            if(this.props.height == '90px'){
-                return <div className='loader'></div>;
-            }
-            else if(this.props.height == '393px'){
-                return <div className='loaderBig'></div>;
-            }
-            else if(this.props.height == '150px'){
-                return <div className='loaderMedium'></div>;
-            }
+            return <div className='loader' style={{'--height': this.props.height}}></div>;
         }
         else{
             return null;
@@ -30,19 +22,16 @@ class Thumbnail extends React.Component{
 
     render(){
         var cls = '';
-        if(this.props.height == '90px'){
-            cls = 'thumbnailImg';
-        }
-        else if(this.props.height == '393px'){
+        if(this.props.height == '393px'){
             cls = 'bigImg';
         }
-        else if(this.props.height == '150px'){
-            cls = 'medImg';
+        else{
+            cls = 'thumbnailImg';
         }
         return(
             <div style={{display: 'flex', justifyContent: 'center'}}>
                 {this.renderSpinner()}
-                <img src={this.props.url} onLoad={this.imageLoadHandler} className={`${cls} invisible`}/>
+                <img src={this.props.url} onLoad={this.imageLoadHandler} className={`${cls} invisible`} style={{'--height': this.props.height}}/>
             </div>
         );
     }
