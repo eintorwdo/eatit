@@ -26,7 +26,7 @@ class Home extends React.Component{
                 else{
                     clsName = 'inv';
                 }
-                items.push(<MainPageCard key={index} id={index} data={value} cls={clsName} height='150'/>);
+                items.push(<MainPageCard key={index} id={index} data={value} cls={clsName} height='200'/>);
             }
             this.setState({recipes: items});
         })
@@ -58,7 +58,7 @@ class Home extends React.Component{
             rightInv = (right == this.state.recipes.length - 1) ? 0 : right + 1;
 
             var rcps = Array.from(this.state.recipes);
-            var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);;
+            var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);
             this.setState((state) => {
                 return {counter: (state.counter+1)%state.recipes.length, recipes: newRcps};       //use this when neww val is computed based on prev state
             });

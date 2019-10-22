@@ -29,7 +29,7 @@ class Thumbnail extends React.Component{
             cls = 'thumbnailImg';
         }
         return(
-            <div style={{display: 'flex', justifyContent: 'center'}}>
+            <div style={{display: 'flex', justifyContent: 'center', overflow: 'hidden'}}>
                 {this.renderSpinner()}
                 <img src={this.props.url} onLoad={this.imageLoadHandler} className={`${cls} invisible`} style={{'--height': this.props.height}}/>
             </div>

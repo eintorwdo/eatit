@@ -12,8 +12,7 @@ class MainPageCard extends React.Component{
         var hgt = parseInt(this.props.height);
         return (
             <div className={className} style={{'--top': `${-hgt/2}px`}}>
-                <Thumbnail url={this.props.data.image} height={`${hgt}px`} />
-                <p className='MainPageCardTitle'>{this.props.data.title}</p>
+                <div className={'MainPageCardInner'} style={{backgroundImage: `url(${this.props.data.image})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom'}}></div>
             </div>
         );
     }
