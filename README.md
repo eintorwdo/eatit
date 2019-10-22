@@ -1,3 +1,5 @@
+React app using spoonacular food api. Allows basic recipe searach and viewing recipe instructions and ingredients.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
