@@ -4,9 +4,10 @@ import MainPageCard from './MainPageCard.js'
 class Home extends React.Component{
     constructor(props){
         super(props);
-        this.state = {recipes: '', counter: 0};
+        this.state = {recipes: '', counter: 0, loading: true, switchingSlide: false};
         fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10`).then(res => {
-            console.log("123")
+            // console.log("123");
+            this.setState({loading: false});
             return res.json();
         }).then(res => {
             const items = [];
@@ -33,7 +34,7 @@ class Home extends React.Component{
     }
 
     moveLeft = () => {
-        if(this.state.recipes.length > 0){
+        if(this.state.recipes.length > 0 && this.state.switchingSlide != true){
             var left;
             var right;
             var rightInv;
@@ -60,13 +61,16 @@ class Home extends React.Component{
             var rcps = Array.from(this.state.recipes);
             var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);
             this.setState((state) => {
-                return {counter: (state.counter+1)%state.recipes.length, recipes: newRcps};       //use this when neww val is computed based on prev state
+                return {counter: (state.counter+1)%state.recipes.length, recipes: newRcps, switchingSlide: true};       //use this when neww val is computed based on prev state
             });
+            setTimeout(() => {
+                this.setState({switchingSlide: false});
+            }, 400);
         }
     }
 
     moveRight = () => {
-        if(this.state.recipes.length > 0){
+        if(this.state.recipes.length > 0 && this.state.switchingSlide != true){
             var left;
             var right;
             var leftInv;
@@ -94,8 +98,11 @@ class Home extends React.Component{
             var rcps = Array.from(this.state.recipes);
             var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);
             this.setState((state) => {
-                return {counter: (state.counter == 0) ? state.recipes.length - 1 : state.counter - 1, recipes: newRcps};       //use this when neww val is computed based on prev state
+                return {counter: (state.counter == 0) ? state.recipes.length - 1 : state.counter - 1, recipes: newRcps, switchingSlide: true};       //use this when neww val is computed based on prev state
             });
+            setTimeout(() => {
+                this.setState({switchingSlide: false});
+            }, 400);
         }
     }
 
@@ -137,10 +144,18 @@ class Home extends React.Component{
 
     render(){
         var recipes = this.state.recipes;
+        var ldg = null;
+        if(this.state.loading){
+            ldg = (
+            <div className='MainLoading'>
+                <p style={{textAlign: 'center', margin: '0 auto'}}>LOADING...</p>
+            </div>)
+        }
         return(
             <div className="col-md mt-2" id='homeBody'>
                 <i className="fas fa-arrow-circle-left arrow" onClick={this.moveLeft}></i>
                 <div className='MainPageCardsWrapper'>
+                    {ldg}
                     {recipes}
                 </div>
                 <i className="fas fa-arrow-circle-right arrow" onClick={this.moveRight}></i>

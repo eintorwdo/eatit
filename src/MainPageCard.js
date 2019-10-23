@@ -4,7 +4,6 @@ import Thumbnail from './Thumbnail.js';
 class MainPageCard extends React.Component{
     constructor(props){
         super(props);
-        console.log(this.props.data)
     }
 
     render(){
