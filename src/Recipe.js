@@ -5,18 +5,13 @@ class Recipe extends React.Component{
     constructor(props){
         super(props);
         this.state = {ingredients: '', instructions: ''};
-        fetch(`https://api.spoonacular.com/recipes/${this.props.match.params.id}/ingredientWidget.json?apiKey=${process.env.REACT_APP_API_KEY}`).then(res => {
-            return res.json();
-        }).then(res => {
-            fetch(`https://api.spoonacular.com/recipes/${this.props.match.params.id}/analyzedInstructions?apiKey=${process.env.REACT_APP_API_KEY}`).then(async (response) => {
-                var inst = '';    
-                inst = await response.json();
-                if(inst[0]){
-                    inst = inst[0].steps
-                }
-                this.setState({ingredients: res.ingredients, instructions: inst});
-            })
-        });
+        fetch(`https://api.spoonacular.com/recipes/${this.props.match.params.id}/information?apiKey=${process.env.REACT_APP_API_KEY}&includeNutrition=true`).then(async (test) => {
+            var info = await test.json();
+            var instr = info.analyzedInstructions[0].steps;
+            var ingr = info.extendedIngredients;
+            // console.log(info)
+            this.setState({ingredients: ingr, instructions: instr, title: info.title});
+        })
     }
 
     render(){
@@ -32,10 +27,10 @@ class Recipe extends React.Component{
                     <div className='col-md-3'>
                         {/* <p style={{textAlign: "center"}}><strong>Ingredients</strong></p> */}
                         <ul className='ingredientsList' style={{padding: '15px'}}>
-                            <p style={{textAlign: "center"}}><strong>Ingredients</strong></p>
+                            <p style={{textAlign: "right"}}><strong>Ingredients</strong></p>
                             {ingredients.map(ingredient => {
                             return(
-                                    <li>{`${ingredient.name}: ${ingredient.amount.metric.value} ${ingredient.amount.metric.unit}`}</li>
+                                    <li className='ingredientsListItem'>{`${ingredient.original}`}</li>
                             );
                         })}
                         </ul>
@@ -68,6 +63,12 @@ class Recipe extends React.Component{
             );
         }
 
+        var title = (
+            <div className='row' style={{marginBottom: '30px'}}>
+                <h2 style={{margin: '0 auto'}}>{this.state.title}</h2>
+            </div>
+        );
+
         recipePhoto = (
             <div className='row' style={{marginBottom: '40px'}}>
                 <div className='col-md'>
@@ -76,12 +77,16 @@ class Recipe extends React.Component{
             </div>
         );
 
-        var photoInstructions = (
-            <div className='col-md-6'>
-                {recipePhoto}
-                {instructionsList}
-            </div>
-        );
+        var photoInstructions;
+        if(ingredientList){
+        photoInstructions = (
+                <div className='col-md-6'>
+                    {title}
+                    {recipePhoto}
+                    {instructionsList}
+                </div>
+            );
+        }
 
         return(
             <div className='row recipeContent' style={{marginTop: '20px'}}>

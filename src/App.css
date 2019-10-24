@@ -143,10 +143,6 @@
   transform: rotateY(55deg);
 }
 
-/* .ctr .MainPageCardInner:hover{
-  transform: translateZ(30px);
-} */
-
 .MainPageCardInner::after{
   content: "";
   background-size: inherit;
@@ -225,7 +221,13 @@
 .ingredientsList{
   list-style: none;
   padding: initial;
-  text-align: center;
+  text-align: right;
+}
+
+.ingredientsListItem{
+  /* border-bottom: solid;
+  border-width: 1px; */
+  margin-bottom: 9px;
 }
 
 .instructionsList{
