@@ -224,6 +224,12 @@
   text-align: right;
 }
 
+.nutrientsList{
+  list-style: none;
+  padding: initial;
+  text-align: left;
+}
+
 .ingredientsListItem{
   /* border-bottom: solid;
   border-width: 1px; */
@@ -335,10 +341,26 @@ html, body{
   }
 }
 
+.list{
+  overflow: hidden;
+}
+
 @media screen and (min-width: 768px){
   .ingredientsList{
     border-right-style: solid;
     border-right-width: 1px;
+  }
+  .nutrientsList{
+    border-left-style: solid;
+    border-left-width: 1px;
+  }
+
+  .ingredientsList p{
+    text-align: right;
+  }
+
+  .nutrientsList p{
+    text-align: left;
   }
 }
 
@@ -362,6 +384,10 @@ html, body{
 
   .right{
     opacity: 0;
+  }
+
+  .list{
+    text-align: center;
   }
 }
 

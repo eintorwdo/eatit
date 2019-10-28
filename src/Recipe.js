@@ -9,34 +9,33 @@ class Recipe extends React.Component{
             var info = await test.json();
             var instr = info.analyzedInstructions[0].steps;
             var ingr = info.extendedIngredients;
-            // console.log(info)
-            this.setState({ingredients: ingr, instructions: instr, title: info.title});
+            console.log(info)
+            this.setState({ingredients: ingr, instructions: instr, title: info.title, nutrition: info.nutrition.nutrients});
         })
     }
 
     render(){
         var ingredients = this.state.ingredients;
         var instructions = this.state.instructions;
+        var nutrition = this.state.nutrition;
         var ingredientList;
         var instructionsList;
         var recipePhoto;
+        var nutritionList;
 
         if(ingredients){
             ingredientList = (
-                // <div className='row'>
-                    <div className='col-md-3'>
-                        {/* <p style={{textAlign: "center"}}><strong>Ingredients</strong></p> */}
-                        <ul className='ingredientsList' style={{padding: '15px'}}>
-                            <p style={{textAlign: "right"}}><strong>Ingredients</strong></p>
-                            {ingredients.map(ingredient => {
-                            return(
-                                    <li className='ingredientsListItem'>{`${ingredient.original}`}</li>
-                            );
-                        })}
-                        </ul>
-                    </div>
-                // </div>
-            )
+                <div className='col-md-3'>
+                    <ul className='list ingredientsList' style={{padding: '15px'}}>
+                        <p><strong>Ingredients</strong></p>
+                        {ingredients.map(ingredient => {
+                        return(
+                                <li className='ingredientsListItem'>{`${ingredient.original}`}</li>
+                        );
+                    })}
+                    </ul>
+                </div>
+            );
         }
 
         if(instructions){
@@ -60,6 +59,21 @@ class Recipe extends React.Component{
                             </ul>
                         </div>
                     </div>
+            );
+        }
+
+        if(nutrition){
+            nutritionList = (
+                <div className='col-md-3'>
+                    <ul className='list nutrientsList' style={{padding: '15px'}}>
+                        <p><strong>Nutrition</strong></p>
+                        {nutrition.map(nutrient => {
+                        return(
+                                <li className='ingredientsListItem'>{`${nutrient.title}: ${nutrient.amount}${nutrient.unit}`}</li>
+                        );
+                    })}
+                    </ul>
+                </div>
             );
         }
 
@@ -92,6 +106,7 @@ class Recipe extends React.Component{
             <div className='row recipeContent' style={{marginTop: '20px'}}>
                 {ingredientList}
                 {photoInstructions}
+                {nutritionList}
             </div>
         );
     }
