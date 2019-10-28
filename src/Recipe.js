@@ -4,7 +4,7 @@ import Thumbnail from './Thumbnail';
 class Recipe extends React.Component{
     constructor(props){
         super(props);
-        this.state = {ingredients: '', instructions: ''};
+        this.state = {ingredients: '', instructions: '', title: '', nutrition: '', nutritionFolded: true};
         fetch(`https://api.spoonacular.com/recipes/${this.props.match.params.id}/information?apiKey=${process.env.REACT_APP_API_KEY}&includeNutrition=true`).then(async (test) => {
             var info = await test.json();
             var instr = info.analyzedInstructions[0].steps;
@@ -12,6 +12,10 @@ class Recipe extends React.Component{
             console.log(info)
             this.setState({ingredients: ingr, instructions: instr, title: info.title, nutrition: info.nutrition.nutrients});
         })
+    }
+
+    fold = () => {
+        this.setState({nutritionFolded: !this.state.nutritionFolded});
     }
 
     render(){
@@ -63,15 +67,38 @@ class Recipe extends React.Component{
         }
 
         if(nutrition){
+            var buttonClass;
+            if(this.state.nutritionFolded){
+                buttonClass = 'fold fas fa-chevron-down';
+            }
+            else{
+                buttonClass = 'fold fas fa-chevron-up'
+            }
+
             nutritionList = (
                 <div className='col-md-3'>
-                    <ul className='list nutrientsList' style={{padding: '15px'}}>
+                    <ul className='list nutrientsList' style={{padding: '15px 15px 1px 15px'}}>
                         <p><strong>Nutrition</strong></p>
-                        {nutrition.map(nutrient => {
+                        {nutrition.map((nutrient,i) => {
+                        var cls = 'ingredientsListItem folded'
+                        var cssProps;
+                        if(this.state.nutritionFolded && i>7){
+                            cssProps = {
+                                "--mrg": '0',
+                                "--maxhgt": '0px'
+                            }
+                        }
+                        else{
+                            cssProps = {
+                                "--mrg": '9px',
+                                "--maxhgt": '24px'
+                            }
+                        }
                         return(
-                                <li className='ingredientsListItem'>{`${nutrient.title}: ${nutrient.amount}${nutrient.unit}`}</li>
+                                <li className={cls} style={cssProps}>{`${nutrient.title}: ${nutrient.amount}${nutrient.unit}`}</li>
                         );
                     })}
+                    <i className={buttonClass} onClick={this.fold}></i>
                     </ul>
                 </div>
             );

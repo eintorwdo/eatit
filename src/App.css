@@ -231,8 +231,7 @@
 }
 
 .ingredientsListItem{
-  /* border-bottom: solid;
-  border-width: 1px; */
+  /* max-height: 24px; */
   margin-bottom: 9px;
 }
 
@@ -343,6 +342,24 @@ html, body{
 
 .list{
   overflow: hidden;
+}
+
+.folded{
+  overflow: hidden;
+  margin-bottom: var(--mrg);
+  max-height: var(--maxhgt);
+  transition: max-height 1s, margin 1s;
+}
+
+.fold{
+  font-size: 38px;
+  color: gray;
+  transition: color 0.5s;
+}
+
+.fold:hover{
+  cursor: pointer;
+  color: black;
 }
 
 @media screen and (min-width: 768px){
