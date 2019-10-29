@@ -1,12 +1,25 @@
 import React from 'react';
 import MainPageCard from './MainPageCard.js'
+import {connect} from 'react-redux'
+import {setHomePageRecipes} from './actions/index.js'
+
+function mapDispatchToProps(dispatch){
+    return {
+        setHomePageRecipes: homePageRecipes => dispatch(setHomePageRecipes(homePageRecipes))
+    }
+}
+
+function select(state){
+    return {
+        homePageRecipes: state.homePageRecipes
+    }
+}
 
 class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {recipes: '', counter: 0, loading: true, switchingSlide: false};
         fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10`).then(res => {
-            // console.log("123");
             this.setState({loading: false});
             return res.json();
         }).then(res => {
@@ -30,6 +43,7 @@ class Home extends React.Component{
                 items.push(<MainPageCard key={index} id={index} data={value} cls={clsName} height='200'/>);
             }
             this.setState({recipes: items});
+            this.props.setHomePageRecipes(items);
         })
     }
 
@@ -94,7 +108,6 @@ class Home extends React.Component{
             leftInv = (left == 0) ? this.state.recipes.length - 1 : left - 1;
             rightInv = (right == this.state.recipes.length - 1) ? 0 : right + 1;
 
-            // var clsName;
             var rcps = Array.from(this.state.recipes);
             var newRcps = this.moveElements(rcps, left, right, leftInv, rightInv, ctr);
             this.setState((state) => {
@@ -163,4 +176,7 @@ class Home extends React.Component{
         );
     }
 }
-export default Home;
+
+const ConnectHome = connect(select, mapDispatchToProps)(Home)
+
+export default ConnectHome;

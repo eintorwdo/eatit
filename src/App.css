@@ -145,7 +145,7 @@
 
 .MainPageCardInner::after{
   content: "";
-  background-size: inherit;
+  background-size: 141%;
   background-repeat: inherit;
   background-position: bottom;
   width: inherit;
