@@ -7,7 +7,10 @@ class Recipe extends React.Component{
         this.state = {ingredients: '', instructions: '', title: '', nutrition: '', nutritionFolded: true};
         fetch(`https://api.spoonacular.com/recipes/${this.props.match.params.id}/information?apiKey=${process.env.REACT_APP_API_KEY}&includeNutrition=true`).then(async (test) => {
             var info = await test.json();
-            var instr = info.analyzedInstructions[0].steps;
+            var instr = [];
+            if(info.analyzedInstructions.length > 0){
+                instr = info.analyzedInstructions[0].steps;
+            }
             var ingr = info.extendedIngredients;
             console.log(info)
             this.setState({ingredients: ingr, instructions: instr, title: info.title, nutrition: info.nutrition.nutrients});
