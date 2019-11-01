@@ -169,6 +169,10 @@
   z-index: 1;
 }
 
+/* .MainPageCardInner:hover{
+  background-color: ivory;
+} */
+
 .MainPageCardTitle{
   text-align: center;
   width: var(--width);
@@ -194,17 +198,20 @@
 .invLeft{
   left: 0%;
   opacity: 0;
-  transition: left 1s, opacity 1s;
+  visibility: hidden;
+  transition: left 1s, opacity 1s, visibility 1s;
 }
 
 .inv{
   opacity: 0;
+  visibility: hidden;
 }
 
 .invRight{
   left: 100%;
   opacity: 0;
-  transition: left 1s, opacity 1s;
+  visibility: hidden;
+  transition: left 1s, opacity 1s, visibility 1s;
 }
 
 .arrow{

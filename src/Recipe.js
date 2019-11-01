@@ -12,7 +12,6 @@ class Recipe extends React.Component{
                 instr = info.analyzedInstructions[0].steps;
             }
             var ingr = info.extendedIngredients;
-            console.log(info)
             this.setState({ingredients: ingr, instructions: instr, title: info.title, nutrition: info.nutrition.nutrients});
         })
     }

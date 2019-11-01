@@ -54,41 +54,6 @@ class MainPageCard extends React.Component{
     }
 
     componentWillReceiveProps(props){
-        // var left, right, leftInv, rightInv;
-        // if(props.counter == 0){
-        //     left = props.homePageRecipes.length - 1;
-        //     right = props.counter + 1;
-        // }
-        // else if(props.counter == props.homePageRecipes.length - 1){
-        //     left = props.counter - 1;
-        //     right = 0;
-        // }
-        // else{
-        //     left = props.counter - 1;
-        //     right = props.counter + 1;
-        // }
-
-        // leftInv = (left == 0) ? props.homePageRecipes.length - 1 : left - 1;
-        // rightInv = (right == props.homePageRecipes.length - 1) ? 0 : right + 1;
-
-        // if(props.id == left){
-        //     this.setState({cls: 'left'});
-        // }
-        // else if(props.id == right){
-        //     this.setState({cls: 'right'});
-        // }
-        // else if(props.id == props.counter){
-        //     this.setState({cls: 'ctr'});
-        // }
-        // else if(props.id == leftInv){
-        //     this.setState({cls: 'invLeft'});
-        // }
-        // else if(props.id == rightInv){
-        //     this.setState({cls: 'invRight'});
-        // }
-        // else{
-        //     this.setState({cls: 'inv'});
-        // }
         this.setState({cls: this.chooseClass(props)})
     }
 
