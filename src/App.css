@@ -104,6 +104,7 @@
 }
 
 .MainPageCardsWrapper{
+  height: calc(var(--mainpagecard-width) * 1.5);
   min-width: 160px;
   width: 70%;
   position: relative;
@@ -114,12 +115,13 @@
   position: absolute;
   z-index: 15;
   transform: translateY(-50%);
+  top: 50%;
 }
 
 .MainPageCard{
   position: absolute;
   --test: var(--mainpagecard-width);
-  top: calc(var(--test) * -0.46);
+  /* top: calc(var(--test) * -0.46); */
   transform: translate(-50%);
   width: var(--mainpagecard-width);
   height: var(--mainpagecard-width);

@@ -22,31 +22,21 @@ class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {loading: true, switchingSlide: false};
-        fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10`).then(res => {
+        if(this.props.homePageRecipes.length == 0){
+            fetch(`https://api.spoonacular.com/recipes/random?apiKey=${process.env.REACT_APP_API_KEY}&number=10`).then(res => {
             this.setState({loading: false});
             return res.json();
-        }).then(res => {
-            const items = [];
-            for(const[index, value] of res.recipes.entries()){
-                var clsName = '';
-                var left = res.recipes.length - 1;
-                var right = this.props.counter + 1;
-                if(index == left){
-                    clsName = 'left';
+            }).then(res => {
+                const items = [];
+                for(const[index, value] of res.recipes.entries()){
+                    items.push(<ConnectMainPageCard key={index} id={index} data={value} height='200'/>);
                 }
-                else if(index == right){
-                    clsName = 'right';
-                }
-                else if (index == this.props.counter){
-                    clsName = 'ctr';
-                }
-                else{
-                    clsName = 'inv';
-                }
-                items.push(<ConnectMainPageCard key={index} id={index} data={value} cls={clsName} height='200'/>);
-            }
-            this.props.setHomePageRecipes(items);
-        })
+                this.props.setHomePageRecipes(items);
+            })
+        }
+        else{
+            this.state.loading = false;
+        }
     }
 
     moveLeft = () => {
