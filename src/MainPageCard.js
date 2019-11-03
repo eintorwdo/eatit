@@ -12,7 +12,10 @@ function select(state){
 class MainPageCard extends React.Component{
     constructor(props){
         super(props);
-        this.state = {cls: this.chooseClass(this.props)};
+        this.state = {cls: this.chooseClass(this.props), tooltipOffset: 0, shouldTooltipAppear: true, cardHover: false};
+        this.titleRef = React.createRef();
+        this.tooltipRef = React.createRef();
+        this.mainpagecardRef = React.createRef();
     }
 
     chooseClass = (props) => {
@@ -53,16 +56,78 @@ class MainPageCard extends React.Component{
         }
     }
 
+    tooltipOffset = (tooltipWidth, mainpagecardWidth) => {
+        return (mainpagecardWidth - tooltipWidth)/2;
+    }
+
+    updateDimensions = () => {
+        var titleWidth = this.titleRef.current.scrollWidth;
+        var mainpagecardWidth = this.mainpagecardRef.current.offsetWidth;
+        var tooltipWidth = this.tooltipRef.current.offsetWidth;
+        if(tooltipWidth < mainpagecardWidth){
+            var offset = this.tooltipOffset(tooltipWidth, mainpagecardWidth);
+            this.setState({tooltipOffset: offset});
+        }
+        if(titleWidth <= mainpagecardWidth){
+            this.setState({shouldTooltipAppear: false});
+        }
+        else{
+            this.setState({shouldTooltipAppear: true});
+        }
+    }
+
+    mainpagecardMouseOver = () => {
+        this.setState({cardHover: true});
+    }
+
+    mainpagecardMouseOut = () => {
+        this.setState({cardHover: false});
+    }
+
     componentWillReceiveProps(props){
         this.setState({cls: this.chooseClass(props)})
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', this.updateDimensions);
+        console.log(this.mainpagecardRef)
+        this.mainpagecardRef.current.addEventListener('mouseover', this.mainpagecardMouseOver);
+        this.mainpagecardRef.current.addEventListener('mouseout', this.mainpagecardMouseOut);
+        var titleWidth = this.titleRef.current.scrollWidth;
+        var tooltipWidth = this.tooltipRef.current.offsetWidth;
+        var mainpagecardWidth = this.mainpagecardRef.current.offsetWidth;
+        if(tooltipWidth < mainpagecardWidth){
+            var offset = this.tooltipOffset(tooltipWidth, mainpagecardWidth);
+            this.setState({tooltipOffset: offset});
+        }
+        if(titleWidth <= mainpagecardWidth){
+            this.setState({shouldTooltipAppear: false});
+        }
     }
 
     render(){
         var className=`MainPageCard ${this.state.cls}`;
         var hgt = parseInt(this.props.height);
+        var tooltipStyle = {}
+        if(this.state.tooltipOffset > 0){
+            tooltipStyle = {
+                paddingLeft: `${this.state.tooltipOffset}px`,
+                paddingRight: `${this.state.tooltipOffset}px`
+            }
+            if(!this.state.shouldTooltipAppear){
+                tooltipStyle.display = 'none';
+            }
+        }
+        if(this.state.cardHover){
+            tooltipStyle.visibility = 'visible';
+            tooltipStyle.opacity = 1;
+        }
         return (
-            <div className={className} style={{'--top': `${-hgt/2}px`}}>
+            <div ref={this.mainpagecardRef} className={className} style={{'--top': `${-hgt/2}px`}}>
                 <Link to={`/recipe/${this.props.data.id}`}>
+                    <p className='MainPageCardTitle' ref={this.titleRef}>{this.props.data.title}
+                    </p>
+                    <p className='tip' style={tooltipStyle} ref={this.tooltipRef}>{this.props.data.title}</p>
                     <div className={'MainPageCardInner'} style={{backgroundImage: `url(${this.props.data.image})`, backgroundSize: 'cover', backgroundRepeat: 'no-repeat', backgroundPosition: 'bottom'}}></div>
                 </Link>
             </div>

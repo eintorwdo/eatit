@@ -104,7 +104,7 @@
 }
 
 .MainPageCardsWrapper{
-  height: calc(var(--mainpagecard-width) * 1.5);
+  height: calc(var(--mainpagecard-width) * 1.65);
   min-width: 160px;
   width: 70%;
   position: relative;
@@ -169,13 +169,47 @@
   z-index: 1;
 }
 
-/* .MainPageCardInner:hover{
-  background-color: ivory;
-} */
-
 .MainPageCardTitle{
   text-align: center;
-  width: var(--width);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin: 0;
+  white-space: nowrap;
+  color: black;
+}
+
+.tip{
+  visibility: hidden;
+  position: absolute;
+  border-radius: 5px;
+  z-index: 100;
+  background-color: rgba(0,0,0,0.8);
+  color: white;
+  padding-top: 1px;
+  padding-bottom: 1px;
+  bottom: 103%;
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tip::after{
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -8px;
+  width: 0; height: 0;
+  border-top: 8px solid rgba(0,0,0,0.8);
+  border-right: 8px solid transparent;
+  border-left: 8px solid transparent;
+}
+
+.MainPageCardTitle:hover + .tip{
+  visibility: visible;
+  opacity: 1;
 }
 
 .ctr{
