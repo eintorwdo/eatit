@@ -59,42 +59,6 @@ class Home extends React.Component{
         }
     }
 
-    cloneMainPageCard = (value, clsName) => {
-        return React.cloneElement(value, {id: value.props.id, data: value.props.data, cls: clsName});
-    }
-
-    moveElements = (rcps, left, right, leftInv, rightInv, ctr) => {
-        var rcp;
-        var newRcps = [];
-        rcps.forEach((value, index) => {
-            if(index == left){
-                rcp = this.cloneMainPageCard(value, 'left');
-                newRcps.push(rcp);
-            }
-            else if(index == right){
-                rcp = this.cloneMainPageCard(value, 'right');
-                newRcps.push(rcp);
-            }
-            else if (index == ctr){
-                rcp = this.cloneMainPageCard(value, 'ctr');
-                newRcps.push(rcp);
-            }
-            else if (index == leftInv){
-                rcp = this.cloneMainPageCard(value, 'invLeft');
-                newRcps.push(rcp);
-            }
-            else if (index == rightInv){
-                rcp = this.cloneMainPageCard(value, 'invRight');
-                newRcps.push(rcp);
-            }
-            else{
-                rcp = this.cloneMainPageCard(value, 'inv');
-                newRcps.push(rcp);
-            }
-        })
-        return newRcps;
-    }
-
     render(){
         var recipes = this.props.homePageRecipes;
         var ldg = null;
@@ -105,13 +69,24 @@ class Home extends React.Component{
             </div>)
         }
         return(
-            <div className="col-md mt-2" id='homeBody'>
-                <i className="fas fa-arrow-circle-left arrow" onClick={this.moveLeft}></i>
-                <div className='MainPageCardsWrapper'>
-                    {ldg}
-                    {recipes}
+            <div>
+                <div className='row'>
+                    <div className='col-md welcome'>
+                        <div className='header'>
+                            <p className='title'>Najlepsze przepisy pod słońcem</p>
+                        </div>
+                    </div>
                 </div>
-                <i className="fas fa-arrow-circle-right arrow" onClick={this.moveRight}></i>
+                <div className='row'>
+                    <div className="col-md mt-2" id='homeBody'>
+                        <i className="fas fa-arrow-circle-left arrow" onClick={this.moveLeft}></i>
+                        <div className='MainPageCardsWrapper'>
+                            {ldg}
+                            {recipes}
+                        </div>
+                        <i className="fas fa-arrow-circle-right arrow" onClick={this.moveRight}></i>
+                    </div>
+                </div>
             </div>
         );
     }

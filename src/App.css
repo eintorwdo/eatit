@@ -103,6 +103,56 @@
   flex: 1 0 auto;
 }
 
+.welcome{
+  height: 400px;
+  background-image: url(https://previews.123rf.com/images/foodandmore/foodandmore1602/foodandmore160200329/52284711-top-down-view-of-various-home-made-brazilian-recipes-cooked-and-displayed-on-colorful-textures-and-t.jpg);
+  background-size: cover;
+}
+
+.header{
+  height: 25%;
+  /* background: black; */
+  width: 100%;
+}
+
+.header::before{
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 200px;
+  background: rgba(0,0,0,0.9);
+  transform: skewY(-3.5deg);
+  top: -15%;
+}
+
+.header .title{
+  /* text-align: center; */
+  color: white;
+  position: relative;
+  z-index: 10;
+  padding-left: 20px;
+  padding-top: 30px;
+  font-size: calc(1em + 3vw);
+}
+
+.welcome::before{
+  position: absolute;
+  top: 50%;
+  width: inherit;
+  content: "";
+  height:50%;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), white);
+}
+
+/* .welcome::after{
+  z-index: 10;
+  position: absolute;
+  top: 0%;
+  width: inherit;
+  content: "";
+  height:50%;
+  background: linear-gradient(to top, rgba(255,255,255,0),black);
+} */
 .MainPageCardsWrapper{
   height: calc(var(--mainpagecard-width) * 1.65);
   min-width: 160px;

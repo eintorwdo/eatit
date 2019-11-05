@@ -60,7 +60,7 @@ class MainPageCard extends React.Component{
         return (mainpagecardWidth - tooltipWidth)/2;
     }
 
-    updateDimensions = () => {
+    setTooltip = () => {
         var titleWidth = this.titleRef.current.scrollWidth;
         var mainpagecardWidth = this.mainpagecardRef.current.offsetWidth;
         var tooltipWidth = this.tooltipRef.current.offsetWidth;
@@ -74,6 +74,10 @@ class MainPageCard extends React.Component{
         else{
             this.setState({shouldTooltipAppear: true});
         }
+    }
+
+    updateDimensions = () => {
+        this.setTooltip();
     }
 
     mainpagecardMouseOver = () => {
@@ -93,16 +97,13 @@ class MainPageCard extends React.Component{
         console.log(this.mainpagecardRef)
         this.mainpagecardRef.current.addEventListener('mouseover', this.mainpagecardMouseOver);
         this.mainpagecardRef.current.addEventListener('mouseout', this.mainpagecardMouseOut);
-        var titleWidth = this.titleRef.current.scrollWidth;
-        var tooltipWidth = this.tooltipRef.current.offsetWidth;
-        var mainpagecardWidth = this.mainpagecardRef.current.offsetWidth;
-        if(tooltipWidth < mainpagecardWidth){
-            var offset = this.tooltipOffset(tooltipWidth, mainpagecardWidth);
-            this.setState({tooltipOffset: offset});
-        }
-        if(titleWidth <= mainpagecardWidth){
-            this.setState({shouldTooltipAppear: false});
-        }
+        this.setTooltip();
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('resize', this.updateDimensions);
+        this.mainpagecardRef.current.removeEventListener('mouseover', this.mainpagecardMouseOver);
+        this.mainpagecardRef.current.removeEventListener('mouseout', this.mainpagecardMouseOut);
     }
 
     render(){
