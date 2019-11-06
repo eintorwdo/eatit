@@ -94,7 +94,6 @@ class MainPageCard extends React.Component{
 
     componentDidMount(){
         window.addEventListener('resize', this.updateDimensions);
-        console.log(this.mainpagecardRef)
         this.mainpagecardRef.current.addEventListener('mouseover', this.mainpagecardMouseOver);
         this.mainpagecardRef.current.addEventListener('mouseout', this.mainpagecardMouseOut);
         this.setTooltip();

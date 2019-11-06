@@ -73,7 +73,7 @@ class Home extends React.Component{
                 <div className='row'>
                     <div className='col-md welcome'>
                         <div className='header'>
-                            <p className='title'>Najlepsze przepisy pod słońcem</p>
+                            <p className='title'>Recipes for everyone</p>
                         </div>
                     </div>
                 </div>
