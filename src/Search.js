@@ -146,34 +146,89 @@ class Search extends React.Component{
                 })
 
             resultList = (
-                <div className="col-md-4 mt-2" id='listCol'>
-                    <ul className="resultsList">
-                        {results.map((val) => {
-                            return (
-                                <li key={val.id}>
-                                    <div className='row' id='searchResult'>
-                                        <div className='col-md' id='thumbnail'>
-                                            <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`} height='90px' />
-                                        </div>
+                <div className='row'>
+                    <div className='col-md-4 mt-2' style={{paddingLeft: '50px', paddingRight: '50px'}}>
+                        <div>
+                        <form className='searchForm'>
+                            <p style={{marginBottom: '2px'}} className='searchFormHeader'>Diet:</p>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='veg' value='vegetarian'></input>
+                                <span style={{paddingLeft: '5px'}}>vegatarian</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='glut' value='glut'></input>
+                                <span style={{paddingLeft: '5px'}}>gluten free</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='keto' value='keto'></input>
+                                <span style={{paddingLeft: '5px'}}>ketogenic</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='vegan' value='vegan'></input>
+                                <span style={{paddingLeft: '5px'}}>ketogenic</span>
+                            </div>
+                            <hr></hr>
+                            <p style={{marginBottom: '2px'}} className='searchFormHeader'>Meal type:</p>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='bfs' value='bfs'></input>
+                                <span style={{paddingLeft: '5px'}}>breakfast</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='main' value='main'></input>
+                                <span style={{paddingLeft: '5px'}}>main course</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='soup' value='soup'></input>
+                                <span style={{paddingLeft: '5px'}}>soup</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='dessert' value='dessert'></input>
+                                <span style={{paddingLeft: '5px'}}>dessert</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='drink' value='drink'></input>
+                                <span style={{paddingLeft: '5px'}}>drink</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='salad' value='salad'></input>
+                                <span style={{paddingLeft: '5px'}}>salad</span>
+                            </div>
+                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
+                                <input type='checkbox' name='appetizer' value='appetizer'></input>
+                                <span style={{paddingLeft: '5px'}}>appetizer</span>
+                            </div>
+                        </form>
+                        </div>
+                    </div>
+                    <div className="col-md-4 mt-2" id='listCol'>
+                        <ul className="resultsList">
+                            {results.map((val) => {
+                                return (
+                                    <li key={val.id}>
+                                        <div className='row' id='searchResult'>
+                                            <div className='col-md' id='thumbnail'>
+                                                <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`} height='90px' />
+                                            </div>
 
-                                        <div className='col-md' id='title'>
-                                            <Link to={`/recipe/${val.id}`} key={val.id}>{val.title}</Link>
+                                            <div className='col-md' id='title'>
+                                                <Link to={`/recipe/${val.id}`} key={val.id}>{val.title}</Link>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            );
-                        })}
-                    </ul>
-
-                    <nav aria-label="Page navigation example" id='paginationNav'>
-                        <ul className="pagination">
-                            <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
-                            {pagination}
-                            <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
-                            <Link to={this.state.query} className='invisibleLink' id='pagLink'></Link>
+                                    </li>
+                                );
+                            })}
                         </ul>
-                    </nav>
 
+                        <nav aria-label="Page navigation example" id='paginationNav'>
+                            <ul className="pagination">
+                                <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
+                                {pagination}
+                                <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
+                                <Link to={this.state.query} className='invisibleLink' id='pagLink'></Link>
+                            </ul>
+                        </nav>
+
+                    </div>
                 </div>
             );
         }

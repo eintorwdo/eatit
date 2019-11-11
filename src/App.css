@@ -86,8 +86,12 @@
 }
 
 #listCol{
-  margin: 0 auto;
+  /* margin: 0 auto; */
   flex: 1 0 auto;
+}
+
+.searchForm{
+  width: 60%;
 }
 
 #paginationNav{
@@ -500,6 +504,18 @@ html, body{
 
   .list{
     text-align: center;
+  }
+
+  .searchForm{
+    width: 100%;
+  }
+  
+  .searchFormHeader{
+    text-align: center;
+  }
+
+  .checkboxWrapper{
+    justify-content: center;
   }
 }
 
