@@ -2,24 +2,31 @@ import React from 'react';
 import Thumbnail from './Thumbnail.js';
 import queryString from 'query-string'
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+// import { serialize } from 'v8';
 
 class Search extends React.Component{
 
     constructor(props){
         // console.log("CONSTR");
         super(props);
-        this.state = {apiRes: '', query: '', page: 1};
+        this.state = {apiRes: '', query: '', page: 1, expandFilter: false, columnsWrapped: false, diet:'', type:''};
         var q = queryString.parse(this.props.location.search);
         this.state.query = this.props.location.search;
         var number = 5;
         var page = 1;
         var offset = 0;
+        this.collapseRef = React.createRef();
+        this.expandRef = React.createRef();
+        this.formRef = React.createRef();
+        if(window.innerWidth < 768){
+            this.state.columnsWrapped = true;
+        }
         if(q.page && q.page != ''){
             page = parseInt(q.page);
             offset = (page - 1) * number;
             this.state.page = page;
         }
-        fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}`, {
+        fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}`, {
             // mode: 'cors'
         }).then(res => {
             return res.json();
@@ -83,7 +90,7 @@ class Search extends React.Component{
             // prev = this.state.query;
             prev = prevProps.location.search;
         }
-        if(cur !== prev){
+        if(cur !== prev || prevState.diet != this.state.diet || prevState.type != this.state.type){
             var q = queryString.parse(cur);
             var number = 5;
             var page = parseInt(q.offset) ? parseInt(q.offset)/number + 1 : 1;
@@ -91,7 +98,7 @@ class Search extends React.Component{
             if(q.offset){
                 offset = (page - 1) * number;
             }
-            fetch(`https://api.spoonacular.com/recipes/search?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}`, {
+            fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&query=${q.query}&number=${number}&offset=${offset}&diet=${this.state.diet}&type=${this.state.type}`, {
             mode: 'cors'
             }).then(res => {
                 return res.json();
@@ -105,9 +112,50 @@ class Search extends React.Component{
         }
     }
 
+    expandFilter = () => {
+        this.setState({expandFilter: true});
+        this.formRef.current.classList.remove('collapsedForm');
+    }
+
+    collapseFilter = () => {
+        this.setState({expandFilter: false});
+        this.formRef.current.classList.add('collapsedForm');
+    }
+
+    submitFilter = (e) => {
+        e.preventDefault();
+        var data = new FormData(document.querySelector('.searchForm'));
+        var options = {};
+        for(var entry of data.entries()){
+            if(entry[0] == 'diet'){
+                options.diet = entry[1];
+            }
+            else if(entry[0] == 'meal'){
+                options.type = entry[1];
+            }
+        }
+        this.setState(options);
+        
+    }
+
+    updateDimensions = () => {
+        if(window.innerWidth < 768){
+            this.setState({columnsWrapped: true});
+        }
+        else{
+            this.setState({columnsWrapped: false});
+        }
+    }
+
+    componentDidMount(){
+        window.addEventListener('resize', this.updateDimensions);
+    }
+
     render(){
         var resultList = '';
         var pagination = '';
+        var dietList = ['vegetarian', 'gluten-free', 'ketogenic', 'vegan'];
+        var mealTypes = ['breakfast', 'main-course', 'soup', 'dessert', 'drink', 'salad', 'appetizer'];
         if(this.state.apiRes.results){
             var results = this.state.apiRes.results;
             var lastPage = Math.ceil(this.state.apiRes.totalResults/5);
@@ -145,94 +193,89 @@ class Search extends React.Component{
                     );
                 })
 
+            var noResults=''
+            if(results.length == 0){
+                noResults = <p>Sorry, no results found...</p>
+            }
             resultList = (
-                <div className='row'>
-                    <div className='col-md-4 mt-2' style={{paddingLeft: '50px', paddingRight: '50px'}}>
-                        <div>
-                        <form className='searchForm'>
-                            <p style={{marginBottom: '2px'}} className='searchFormHeader'>Diet:</p>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='veg' value='vegetarian'></input>
-                                <span style={{paddingLeft: '5px'}}>vegatarian</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='glut' value='glut'></input>
-                                <span style={{paddingLeft: '5px'}}>gluten free</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='keto' value='keto'></input>
-                                <span style={{paddingLeft: '5px'}}>ketogenic</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='vegan' value='vegan'></input>
-                                <span style={{paddingLeft: '5px'}}>ketogenic</span>
-                            </div>
-                            <hr></hr>
-                            <p style={{marginBottom: '2px'}} className='searchFormHeader'>Meal type:</p>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='bfs' value='bfs'></input>
-                                <span style={{paddingLeft: '5px'}}>breakfast</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='main' value='main'></input>
-                                <span style={{paddingLeft: '5px'}}>main course</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='soup' value='soup'></input>
-                                <span style={{paddingLeft: '5px'}}>soup</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='dessert' value='dessert'></input>
-                                <span style={{paddingLeft: '5px'}}>dessert</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='drink' value='drink'></input>
-                                <span style={{paddingLeft: '5px'}}>drink</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='salad' value='salad'></input>
-                                <span style={{paddingLeft: '5px'}}>salad</span>
-                            </div>
-                            <div style={{display: 'flex', alignItems: 'center'}} className='checkboxWrapper'>
-                                <input type='checkbox' name='appetizer' value='appetizer'></input>
-                                <span style={{paddingLeft: '5px'}}>appetizer</span>
-                            </div>
-                        </form>
-                        </div>
-                    </div>
-                    <div className="col-md-4 mt-2" id='listCol'>
-                        <ul className="resultsList">
-                            {results.map((val) => {
-                                return (
-                                    <li key={val.id}>
-                                        <div className='row' id='searchResult'>
-                                            <div className='col-md' id='thumbnail'>
-                                                <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`} height='90px' />
-                                            </div>
-
-                                            <div className='col-md' id='title'>
-                                                <Link to={`/recipe/${val.id}`} key={val.id}>{val.title}</Link>
-                                            </div>
+                <div className="col-md-4 mt-2" id='listCol'>
+                    <ul className="resultsList">
+                        {results.map((val) => {
+                            return (
+                                <li key={val.id}>
+                                    <div className='row' id='searchResult'>
+                                        <div className='col-md' id='thumbnail'>
+                                            <Thumbnail url={`https://spoonacular.com/recipeImages/${val.id}-90x90.jpg`} height='90px' />
                                         </div>
-                                    </li>
-                                );
-                            })}
+
+                                        <div className='col-md' id='title'>
+                                            <Link to={`/recipe/${val.id}`} key={val.id}>{val.title}</Link>
+                                        </div>
+                                    </div>
+                                </li>
+                            );
+                        })}
+                        <li>{noResults}</li>
+                    </ul>
+
+                    <nav aria-label="Page navigation example" id='paginationNav'>
+                        <ul className="pagination">
+                            <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
+                            {pagination}
+                            <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
+                            <Link to={this.state.query} className='invisibleLink' id='pagLink'></Link>
                         </ul>
+                    </nav>
 
-                        <nav aria-label="Page navigation example" id='paginationNav'>
-                            <ul className="pagination">
-                                <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
-                                {pagination}
-                                <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
-                                <Link to={this.state.query} className='invisibleLink' id='pagLink'></Link>
-                            </ul>
-                        </nav>
-
-                    </div>
                 </div>
             );
         }
-        return resultList;
+
+        var expButton = null;
+
+        if(!this.state.expandFilter && this.state.columnsWrapped){
+            expButton = <button ref={this.expandRef} onClick={this.expandFilter} className='filterExpandButton'>Rozwiń filtry</button>;
+        }
+
+        var searchFilter = (
+            <div className='col-md-4 mt-2 mb-5' style={{paddingLeft: '50px', paddingRight: '50px'}}>
+                <div ref={this.formRef} className='formCollapse collapsedForm' style={{overflow: 'hidden'}}>
+                <i ref={this.collapseRef} onClick={this.collapseFilter} className="fas fa-times-circle filterCollapseButton"></i>
+                    <form className='searchForm'>
+                        <p style={{marginBottom: '2px'}} className='searchFormHeader'>Diet:</p>
+                        {dietList.map((el) => {
+                            return <Checkbox name={el} type='diet' />;
+                        })}
+                        <hr></hr>
+                        <p style={{marginBottom: '2px'}} className='searchFormHeader'>Meal type:</p>
+                        {mealTypes.map((type) => {
+                            type = type.replace('-', ' ');
+                            return <Checkbox name={type} type='meal' />;
+                        })}
+                        <button className='submitFilterButton' onClick={this.submitFilter}>Zastosuj filtry</button>
+                    </form>
+                </div>
+                {expButton}
+            </div>
+        );
+
+
+        return (
+            <div className='row'>
+                {searchFilter}
+                {resultList}
+            </div>
+        );
     }
 }
+
+function Checkbox(props){
+    return (
+        <div className='checkboxWrapper'>
+            <input type='radio' name={props.type}value={props.name}></input>
+            <span style={{paddingLeft: '5px'}}>{props.name}</span>
+        </div>
+    );
+}
+
 export default Search;

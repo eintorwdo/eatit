@@ -91,7 +91,7 @@
 }
 
 .searchForm{
-  width: 60%;
+  width: 80%;
 }
 
 #paginationNav{
@@ -461,7 +461,46 @@ html, body{
   color: black;
 }
 
+.checkboxWrapper{
+  display: flex;
+  align-items: center;
+}
+
+.filterExpandButton{
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.submitFilterButton{
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.formCollapse{
+  max-height: 100%;
+  transition: max-height 1s;
+}
+
+.filterCollapseButton{
+  font-size: 25px;
+  border-radius: 50%;
+  transition: color 0.5s, background-color 0.5s;
+}
+
+.filterCollapseButton:hover{
+  cursor: pointer;
+  color:white;
+  background-color: black;
+}
+
 @media screen and (min-width: 768px){
+
+  .filterCollapseButton{
+    display: none;
+  }
+
   .ingredientsList{
     border-right-style: solid;
     border-right-width: 1px;
@@ -478,9 +517,19 @@ html, body{
   .nutrientsList p{
     text-align: left;
   }
+
+  .submitFilterButton{
+    display: block;
+    margin: 0;
+    margin-top: 10px;
+  }
 }
 
 @media screen and (max-width: 767px){
+
+  .collapsedForm{
+    max-height: 0;
+  }
 
   .footer-list {
     padding: 0;
