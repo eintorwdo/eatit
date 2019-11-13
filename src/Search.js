@@ -51,14 +51,16 @@ class Search extends React.Component{
         return [number, offset, nxtPg];
     }
 
-    nextPage = (e) => {
-        e.preventDefault();
-        var cur = this.props.location.search;
-        var q = queryString.parse(cur).query;
-        var numOff = this.pageUpdate(true);
-        this.setState({page: numOff[2], query: `?query=${q}&number=${numOff[0]}&offset=${numOff[1]}`}, ()=>{
-            document.getElementById('pagLink').click();
-        });
+    nextPage = (pagArr, e) => {
+        if(pagArr.length > 1){
+            e.preventDefault();
+            var cur = this.props.location.search;
+            var q = queryString.parse(cur).query;
+            var numOff = this.pageUpdate(true);
+            this.setState({page: numOff[2], query: `?query=${q}&number=${numOff[0]}&offset=${numOff[1]}`}, ()=>{
+                document.getElementById('pagLink').click();
+            });
+        }
     }
 
     prevPage = (e) => {
@@ -156,11 +158,11 @@ class Search extends React.Component{
         var pagination = '';
         var dietList = ['vegetarian', 'gluten-free', 'ketogenic', 'vegan'];
         var mealTypes = ['breakfast', 'main-course', 'soup', 'dessert', 'drink', 'salad', 'appetizer'];
+        var paginationArr = [];
         if(this.state.apiRes.results){
             var results = this.state.apiRes.results;
             var lastPage = Math.ceil(this.state.apiRes.totalResults/5);
             var curPage = this.state.page;
-            var paginationArr = [];
             if(curPage == 1){
                 if(lastPage >= 3){
                     paginationArr = [1,2,3];
@@ -222,7 +224,7 @@ class Search extends React.Component{
                         <ul className="pagination">
                             <li className="page-item"><button className="page-link" onClick={this.prevPage}>Previous</button></li>
                             {pagination}
-                            <li className="page-item"><button className="page-link" onClick={this.nextPage}>Next</button></li>
+                            <li className="page-item"><button className="page-link" onClick={(e) => this.nextPage(paginationArr, e)}>Next</button></li>
                             <Link to={this.state.query} className='invisibleLink' id='pagLink'></Link>
                         </ul>
                     </nav>
@@ -234,11 +236,16 @@ class Search extends React.Component{
         var expButton = null;
 
         if(!this.state.expandFilter && this.state.columnsWrapped){
-            expButton = <button ref={this.expandRef} onClick={this.expandFilter} className='filterExpandButton'>Rozwiń filtry</button>;
+            expButton = (
+                <div ref={this.expandRef} onClick={this.expandFilter} className='filterExpandButton'>
+                    <p style={{marginBottom: '0', textAlign: 'center', fontFamily: "'Open Sans', sans-serif"}}>Filtry</p>
+                    <i className="fas fa-arrow-circle-down" style={{display: 'flex', marginLeft:'5px'}}></i>
+                </div>
+            );
         }
 
         var searchFilter = (
-            <div className='col-md-4 mt-2 mb-5' style={{paddingLeft: '50px', paddingRight: '50px'}}>
+            <div className='col-md-4 mt-2 mb-4' style={{paddingLeft: '50px', paddingRight: '50px'}}>
                 <div ref={this.formRef} className='formCollapse collapsedForm' style={{overflow: 'hidden'}}>
                 <i ref={this.collapseRef} onClick={this.collapseFilter} className="fas fa-times-circle filterCollapseButton"></i>
                     <form className='searchForm'>
@@ -252,7 +259,9 @@ class Search extends React.Component{
                             type = type.replace('-', ' ');
                             return <Checkbox name={type} type='meal' />;
                         })}
-                        <button className='submitFilterButton' onClick={this.submitFilter}>Zastosuj filtry</button>
+                        <hr></hr>
+                        <button className='btn btn-primary submitFilterButton' onClick={this.submitFilter}>Zastosuj filtry</button>
+                        <hr></hr>
                     </form>
                 </div>
                 {expButton}

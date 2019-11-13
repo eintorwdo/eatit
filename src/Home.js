@@ -77,6 +77,9 @@ class Home extends React.Component{
                         </div>
                     </div>
                 </div>
+                <div className='row popular'>
+                    <p>Sprawdź najpopularniejsze przepisy:</p>
+                </div>
                 <div className='row'>
                     <div className="col-md mt-2" id='homeBody'>
                         <i className="fas fa-arrow-circle-left arrow" onClick={this.moveLeft}></i>

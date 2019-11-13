@@ -132,11 +132,13 @@
 .header .title{
   /* text-align: center; */
   color: white;
+  font-family: 'Open Sans', sans-serif;
   position: relative;
   z-index: 10;
   padding-left: 20px;
   padding-top: 30px;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
+  font-weight: bold;
   font-size: calc(1em + 3vw);
   /* font-family: ; */
 }
@@ -467,9 +469,35 @@ html, body{
 }
 
 .filterExpandButton{
-  display: block;
+  color: white;
+  display: flex;
+  justify-content: center;
+  width: fit-content;
   margin: 0 auto;
   margin-top: 10px;
+  align-items: center;
+  font-size: calc(1em + 0.9vw);
+  padding: 6px;
+  border-radius: 6px;
+  background-color: rgb(0, 116, 189);
+  transition: background-color 0.3s;
+}
+
+.filterExpandButton i{
+  border-radius: 50%;
+}
+
+.filterExpandButton:hover{
+  cursor: pointer;
+  background-color: rgb(0, 100, 161);
+}
+
+.filterExpandButton:hover > p{
+  text-shadow: -1px 1px 2px rgba(0,0,0,0.3);
+}
+
+.filterExpandButton:hover > i{
+  box-shadow: -1px 1px 2px rgba(0,0,0,0.3);
 }
 
 .submitFilterButton{
@@ -491,8 +519,19 @@ html, body{
 
 .filterCollapseButton:hover{
   cursor: pointer;
-  color:white;
-  background-color: black;
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.6);
+}
+
+.popular{
+  justify-content: center;
+  font-family: 'Open-Sans', sans-serif;
+}
+
+.popular p{
+  text-align: center;
+  font-size: calc(1em + 1.8vw);
+  color: rgba(0,0,0,0.9);
+  text-shadow: -1px 2px 3px rgba(0,0,0,0.4);
 }
 
 @media screen and (min-width: 768px){
