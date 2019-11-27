@@ -78,7 +78,7 @@ class Home extends React.Component{
                     </div>
                 </div>
                 <div className='row popular'>
-                    <p>Sprawdź najpopularniejsze przepisy:</p>
+                    <p>Najpopularniejsze przepisy:</p>
                 </div>
                 <div className='row'>
                     <div className="col-md mt-2" id='homeBody'>

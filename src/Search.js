@@ -127,7 +127,7 @@ class Search extends React.Component{
     submitFilter = (e) => {
         e.preventDefault();
         var data = new FormData(document.querySelector('.searchForm'));
-        var options = {};
+        var options = {expandFilter: false};
         for(var entry of data.entries()){
             if(entry[0] == 'diet'){
                 options.diet = entry[1];
@@ -137,7 +137,7 @@ class Search extends React.Component{
             }
         }
         this.setState(options);
-        
+        this.formRef.current.classList.add('collapsedForm');
     }
 
     updateDimensions = () => {
@@ -199,8 +199,14 @@ class Search extends React.Component{
             if(results.length == 0){
                 noResults = <p>Sorry, no results found...</p>
             }
+
+            var resultListStyle = {}
+            if(window.innerWidth < 768 && this.state.expandFilter == true){
+                resultListStyle.display = "none";
+            }
+
             resultList = (
-                <div className="col-md-4 mt-2" id='listCol'>
+                <div className="col-md-4 mt-2" id='listCol' style={resultListStyle}>
                     <ul className="resultsList">
                         {results.map((val) => {
                             return (
@@ -238,7 +244,7 @@ class Search extends React.Component{
         if(!this.state.expandFilter && this.state.columnsWrapped){
             expButton = (
                 <div ref={this.expandRef} onClick={this.expandFilter} className='filterExpandButton'>
-                    <p style={{marginBottom: '0', textAlign: 'center', fontFamily: "'Open Sans', sans-serif"}}>Filtry</p>
+                    <p style={{marginBottom: '0', textAlign: 'center', fontFamily: "'Open Sans', sans-serif"}}>Filters</p>
                     <i className="fas fa-arrow-circle-down" style={{display: 'flex', marginLeft:'5px'}}></i>
                 </div>
             );
